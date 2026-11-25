@@ -95,13 +95,13 @@ export const categories = [
 ] as const;
 
 export const siteConfig = {
-  name: "Saffron Kitchen",
-  shortName: "Saffron",
-  tagline: "Kitchen & Bar",
+  name: "LifeDrop",
+  shortName: "LifeDrop",
+  tagline: "Blood Donor Network",
   description:
-    "Freshly prepared food, warm hospitality and fast delivery. Order online, track your order or reserve a table at Saffron Kitchen.",
-  url: "https://ali-irfan.vercel.app",
-  location: "Near City Centre · Open 11:00 am – 11:00 pm",
+    "Find blood donors nearby, post a blood request, or register as a volunteer donor with LifeDrop. Donor details are shared only with consent.",
+  url: "https://lifedrop-donor-network.vercel.app",
+  location: "Community donor network · Available 24/7",
   phone: "+91 96547 38357",
   email: "irfanrifu11@gmail.com",
 };

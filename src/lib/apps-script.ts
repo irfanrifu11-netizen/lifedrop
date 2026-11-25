@@ -1,10 +1,11 @@
 import { seedMenu } from "./data";
 import type { ActionResult, CouponResult, MenuItem } from "./types";
 
-const API_URL =
-  "https://script.google.com/macros/s/AKfycbxQrOFqzEKJFS-y3H-WDhVswRFN6_9iNjTt7r2GWChOLxWu7PD256u_5XGNcT9WgGUR/exec";
-const WEB_URL =
-  "https://script.google.com/macros/s/AKfycbxqWMNfXxCVKWRdBmVScw6kOnDO3XUNLMr15zfYi8z-tEeq_FN_Q1XnNBCGu2Mr49oj/exec";
+const SCRIPT_URL =
+  process.env.GOOGLE_APPS_SCRIPT_URL ??
+  "https://script.google.com/macros/s/AKfycbw6CeuaOowp_u4EtEd3OWEmLHXp2mXK2W9tJtMSnJkXMJM5msFofzKnXZDn0uOtHaapQw/exec";
+const API_URL = SCRIPT_URL;
+const WEB_URL = SCRIPT_URL;
 
 type ScriptResponse = Record<string, unknown> | unknown[];
 
@@ -138,5 +139,60 @@ export async function updateRemoteOrder(
   return {
     success: result.success === true,
     message: String(result.message ?? "Unable to update order."),
+  };
+}
+
+export async function getRemoteDonors(): Promise<Record<string, unknown>[]> {
+  const normalize = (value: ScriptResponse | null) => {
+    if (!value) return [];
+    const record = asRecord(value);
+    const raw = Array.isArray(value)
+      ? value
+      : Array.isArray(record.donors)
+        ? record.donors
+        : Array.isArray(record.data)
+          ? record.data
+          : [];
+    return raw.filter(
+      (entry): entry is Record<string, unknown> =>
+        !!entry && typeof entry === "object",
+    );
+  };
+
+  try {
+    const response = await fetch(`${WEB_URL}?action=getDonors`, {
+      cache: "no-store",
+    });
+    const donors = normalize(await parseResponse(response));
+    if (donors.length) return donors;
+  } catch {
+    // Fall through to POST action for older deployments.
+  }
+
+  return normalize(await postAction("getDonors"));
+}
+
+export async function addRemoteDonor(data: Record<string, unknown>): Promise<ActionResult> {
+  const payload = {
+    ...data,
+    blood: String(data.blood ?? data.bloodGroup ?? ""),
+    phone: String(data.phone ?? data.phoneNo ?? ""),
+  };
+  const result = asRecord(await postAction("registerDonor", payload));
+  if (result.success === true) {
+    return {
+      success: true,
+      message: String(result.message ?? "Donor synced."),
+      row: Number(result.row ?? result.id ?? 0) || undefined,
+    };
+  }
+
+  const fallback = asRecord(await postAction("addDonor", data));
+  return {
+    success: fallback.success === true,
+    message: String(
+      fallback.message ?? fallback.error ?? result.error ?? result.message ?? "Unable to sync donor.",
+    ),
+    row: Number(fallback.row ?? fallback.id ?? 0) || undefined,
   };
 }

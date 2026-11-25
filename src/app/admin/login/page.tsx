@@ -37,7 +37,7 @@ export default function AdminLoginPage() {
           Admin login
         </h1>
         <p className="mt-3 text-sm text-on-surface-variant">
-          Enter the staff password to manage orders and the menu.
+          Enter the staff password to view LifeDrop donor and request stats.
         </p>
         <form onSubmit={handleSubmit} className="mt-7 space-y-4">
           <label className="block">

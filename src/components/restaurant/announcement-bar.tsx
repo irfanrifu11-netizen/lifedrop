@@ -4,14 +4,19 @@ import Link from "next/link";
 import { Copy, X } from "lucide-react";
 import { useState } from "react";
 import { useRestaurant } from "./restaurant-provider";
+import { localStore, useLocalValue } from "@/lib/local-store";
 
 const CODE = "WELCOME10";
 
 export function AnnouncementBar() {
   const { setNotice } = useRestaurant();
   const [dismissed, setDismissed] = useState(false);
+  const welcomeUsed = useLocalValue<boolean>(
+    localStore.keys.welcome10Used,
+    false,
+  );
 
-  if (dismissed) return null;
+  if (dismissed || welcomeUsed) return null;
 
   const copyCode = async () => {
     try {

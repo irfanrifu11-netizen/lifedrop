@@ -2,20 +2,10 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  CalendarDays,
-  ChefHat,
-  ClipboardList,
-  LogOut,
-  UtensilsCrossed,
-} from "lucide-react";
+import { Droplets, LayoutDashboard, LogOut } from "lucide-react";
 import { localStore } from "@/lib/local-store";
 
-const nav = [
-  { href: "/admin", label: "Orders", icon: ClipboardList },
-  { href: "/admin/menu", label: "Menu items", icon: UtensilsCrossed },
-  { href: "/admin/reservations", label: "Reservations", icon: CalendarDays },
-];
+const nav = [{ href: "/admin", label: "Dashboard", icon: LayoutDashboard }];
 
 export function AdminShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
@@ -28,46 +18,65 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen bg-surface-container-low lg:flex">
-      <aside className="border-b border-outline-variant bg-surface lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-64 lg:flex-col lg:border-b-0 lg:border-r">
-        <div className="flex items-center gap-3 px-6 py-6">
-          <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary text-on-primary">
-            <ChefHat size={20} />
-          </span>
-          <div>
-            <p className="font-display text-lg leading-none text-on-surface">
-              Saffron Admin
-            </p>
-            <p className="mt-1 text-[10px] uppercase tracking-[0.2em] text-secondary">
-              Management panel
-            </p>
+      <aside className="border-b border-outline-variant bg-surface-container-lowest lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-72 lg:flex-col lg:border-b-0 lg:border-r lg:px-4 lg:py-5">
+        <div className="border-b border-outline-variant px-5 py-5 lg:rounded-2xl lg:border lg:bg-surface lg:px-4 lg:py-4">
+          <div className="flex items-center gap-3">
+            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-on-primary shadow-sm">
+              <Droplets size={20} />
+            </span>
+            <div>
+              <p className="font-display text-xl leading-none text-on-surface">
+                LifeDrop
+              </p>
+              <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.22em] text-secondary">
+                Admin panel
+              </p>
+            </div>
           </div>
         </div>
-        <nav className="flex gap-2 overflow-x-auto px-4 pb-4 lg:flex-col lg:overflow-visible">
-          {nav.map(({ href, label, icon: Icon }) => {
-            const active = pathname === href;
-            return (
-              <Link
-                key={href}
-                href={href}
-                className={`flex shrink-0 items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
-                  active
-                    ? "bg-primary text-on-primary"
-                    : "text-on-surface-variant hover:bg-surface-container hover:text-primary"
-                }`}
-              >
-                <Icon size={17} />
-                {label}
-              </Link>
-            );
-          })}
-        </nav>
-        <div className="mt-auto hidden px-4 pb-6 lg:block">
+
+        <div className="px-4 py-4 lg:px-0 lg:py-5">
+          <p className="mb-2 hidden px-3 text-[10px] font-semibold uppercase tracking-[0.2em] text-on-surface-variant lg:block">
+            Menu
+          </p>
+          <nav className="flex gap-2 overflow-x-auto lg:flex-col lg:gap-1.5 lg:overflow-visible">
+            {nav.map(({ href, label, icon: Icon }) => {
+              const active = pathname === href;
+              return (
+                <Link
+                  key={href}
+                  href={href}
+                  className={`group flex shrink-0 items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium transition ${
+                    active
+                      ? "bg-primary text-on-primary shadow-sm"
+                      : "text-on-surface-variant hover:bg-surface hover:text-primary lg:hover:shadow-sm"
+                  }`}
+                >
+                  <span
+                    className={`flex h-8 w-8 items-center justify-center rounded-lg ${
+                      active
+                        ? "bg-white/15 text-on-primary"
+                        : "bg-surface-container text-secondary group-hover:text-primary"
+                    }`}
+                  >
+                    <Icon size={16} />
+                  </span>
+                  {label}
+                </Link>
+              );
+            })}
+          </nav>
+        </div>
+
+        <div className="mt-auto hidden px-0 pb-2 lg:block">
           <button
             type="button"
             onClick={logout}
-            className="flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-on-surface-variant transition-colors hover:bg-error-container hover:text-error"
+            className="flex w-full items-center gap-3 rounded-xl border border-outline-variant bg-surface px-4 py-3 text-sm font-medium text-on-surface-variant transition hover:border-error/30 hover:bg-error-container hover:text-error"
           >
-            <LogOut size={17} />
+            <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-surface-container">
+              <LogOut size={16} />
+            </span>
             Log out
           </button>
         </div>

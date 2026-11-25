@@ -1,18 +1,30 @@
 "use client";
 
-import { ClipboardList, RefreshCw, Wallet } from "lucide-react";
-import { useRestaurant } from "@/components/restaurant/restaurant-provider";
-import { StatusBadge } from "@/components/restaurant/status-badge";
+import {
+  CheckCircle2,
+  Droplets,
+  HandHeart,
+  MapPin,
+  Phone,
+  RefreshCw,
+  Users,
+} from "lucide-react";
+import {
+  connectDonorToRequest,
+  disconnectDonorFromRequest,
+  useConnections,
+  useDonors,
+  useRequests,
+} from "@/lib/lifedrop-store";
 
-export default function AdminOrdersPage() {
-  const { orders, updateOrder } = useRestaurant();
+export default function AdminDashboardPage() {
+  const donors = useDonors();
+  const requests = useRequests();
+  const connections = useConnections();
 
-  const pending = orders.filter((order) => order.status === "Pending").length;
-  const approved = orders.filter((order) => order.status === "Approved").length;
-  const paid = orders.filter((order) => order.paymentStatus === "Paid").length;
-  const revenue = orders
-    .filter((order) => order.paymentStatus === "Paid")
-    .reduce((sum, order) => sum + order.total, 0);
+  const totalDonors = donors.length;
+  const totalRequests = requests.length;
+  const collected = donors.filter((d) => d.availability === "Available").length;
 
   return (
     <div>
@@ -21,9 +33,9 @@ export default function AdminOrdersPage() {
           <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-secondary">
             Overview
           </p>
-          <h1 className="mt-2 font-display text-4xl text-on-surface">Orders</h1>
+          <h1 className="mt-2 font-display text-4xl text-on-surface">Dashboard</h1>
           <p className="mt-2 text-sm text-on-surface-variant">
-            Approve orders and update payment status.
+            LifeDrop donor and blood request statistics.
           </p>
         </div>
         <button
@@ -36,24 +48,26 @@ export default function AdminOrdersPage() {
         </button>
       </div>
 
-      <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
         {[
-          { label: "Total orders", value: orders.length, icon: ClipboardList },
-          { label: "Pending", value: pending, icon: ClipboardList },
-          { label: "Approved", value: approved, icon: RefreshCw },
-          { label: "Paid revenue", value: `₹${revenue}`, icon: Wallet },
+          { label: "Total Donors", value: totalDonors, icon: Users },
+          { label: "Blood Requests", value: totalRequests, icon: Droplets },
+          { label: "Available Donors", value: collected, icon: HandHeart },
+          { label: "Connected", value: connections.length, icon: CheckCircle2 },
         ].map((stat) => (
           <div
             key={stat.label}
-            className="rounded-2xl border border-outline-variant bg-surface p-5"
+            className="rounded-2xl border border-outline-variant bg-surface p-6"
           >
             <div className="flex items-center justify-between">
               <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-variant">
                 {stat.label}
               </p>
-              <stat.icon size={17} className="text-secondary" />
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-container text-primary">
+                <stat.icon size={18} />
+              </span>
             </div>
-            <p className="mt-3 font-display text-3xl text-on-surface">
+            <p className="mt-4 font-display text-4xl text-on-surface">
               {stat.value}
             </p>
           </div>
@@ -61,126 +75,182 @@ export default function AdminOrdersPage() {
       </div>
 
       <div className="mt-8 overflow-hidden rounded-3xl border border-outline-variant bg-surface">
-        <div className="flex flex-wrap items-center justify-between gap-3 border-b border-outline-variant px-6 py-4">
-          <h2 className="font-display text-xl text-on-surface">All orders</h2>
-          <p className="text-xs text-on-surface-variant">
-            {paid} paid · {orders.length - paid} unpaid
+        <div className="border-b border-outline-variant px-6 py-4">
+          <h2 className="font-display text-xl text-on-surface">Connect Donors to Requests</h2>
+          <p className="mt-1 text-xs text-on-surface-variant">
+            Matching donors by blood group and availability.
           </p>
         </div>
-
-        {orders.length === 0 ? (
-          <div className="px-6 py-20 text-center">
-            <ClipboardList className="mx-auto mb-3 text-secondary" size={28} />
-            <p className="font-display text-xl text-on-surface">No orders yet</p>
-            <p className="mt-2 text-sm text-on-surface-variant">
-              New orders will appear here when customers check out.
-            </p>
-          </div>
+        {requests.length === 0 ? (
+          <p className="px-6 py-10 text-sm text-on-surface-variant">No blood requests yet.</p>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[860px] text-left text-sm">
-              <thead className="bg-surface-container text-[11px] uppercase tracking-widest text-on-surface-variant">
-                <tr>
-                  <th className="px-6 py-3 font-semibold">Order</th>
-                  <th className="px-6 py-3 font-semibold">Customer</th>
-                  <th className="px-6 py-3 font-semibold">Items</th>
-                  <th className="px-6 py-3 font-semibold">Total</th>
-                  <th className="px-6 py-3 font-semibold">Status</th>
-                  <th className="px-6 py-3 font-semibold">Payment</th>
-                  <th className="px-6 py-3 font-semibold">Actions</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-outline-variant">
-                {orders.map((order) => (
-                  <tr key={order.id} className="hover:bg-surface-container-low">
-                    <td className="px-6 py-4">
-                      <p className="font-semibold text-on-surface">{order.id}</p>
-                      <p className="mt-0.5 text-[11px] text-on-surface-variant">
-                        {new Date(order.createdAt).toLocaleDateString()}
-                      </p>
-                      {order.row && (
-                        <p className="mt-0.5 text-[10px] text-secondary">
-                          Sheet row {order.row}
-                        </p>
-                      )}
-                    </td>
-                    <td className="px-6 py-4">
-                      <p className="font-medium text-on-surface">
-                        {order.customerName}
-                      </p>
-                      <p className="mt-0.5 text-[11px] text-on-surface-variant">
-                        {order.phone}
-                      </p>
-                    </td>
-                    <td className="px-6 py-4 text-on-surface-variant">
-                      {order.items
-                        .map((item) => `${item.quantity}× ${item.name}`)
-                        .join(", ")}
-                      <p className="mt-1 text-[11px]">
-                        {order.fulfilment} · {order.address || "—"}
-                      </p>
-                    </td>
-                    <td className="px-6 py-4 font-semibold text-on-surface">
-                      ₹{order.total}
-                    </td>
-                    <td className="px-6 py-4">
-                      <StatusBadge value={order.status} />
-                    </td>
-                    <td className="px-6 py-4">
-                      <StatusBadge value={order.paymentStatus} />
-                    </td>
-                    <td className="px-6 py-4">
-                      <div className="flex flex-wrap gap-2">
-                        {order.status === "Pending" && (
-                          <button
-                            type="button"
-                            onClick={() => updateOrder(order.id, { status: "Approved" })}
-                            className="rounded-full bg-primary px-3 py-1.5 text-[11px] font-semibold text-on-primary hover:bg-brand-dark"
-                          >
-                            Approve
-                          </button>
+          <div className="divide-y divide-outline-variant">
+            {requests.map((request) => {
+              const matches = donors.filter(
+                (donor) =>
+                  donor.bloodGroup === request.bloodGroup &&
+                  donor.consent &&
+                  donor.availability === "Available",
+              );
+              const connection = connections.find(
+                (item) => item.requestId === request.id,
+              );
+              return (
+                <div key={request.id} className="px-6 py-5">
+                  <div className="flex flex-wrap items-start justify-between gap-3">
+                    <div>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="rounded-full bg-error-container px-3 py-1 text-xs font-bold text-error">
+                          {request.bloodGroup}
+                        </span>
+                        <p className="text-sm font-semibold text-on-surface">{request.patientName}</p>
+                        <span className="text-[11px] text-on-surface-variant">({request.urgency})</span>
+                        {connection && (
+                          <span className="rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-bold text-emerald-800">
+                            Connected to {connection.donorName}
+                          </span>
                         )}
-                        {order.status === "Approved" && (
-                          <button
-                            type="button"
-                            onClick={() => updateOrder(order.id, { status: "Rejected" })}
-                            className="rounded-full border border-outline px-3 py-1.5 text-[11px] font-semibold text-on-surface-variant hover:border-error hover:text-error"
-                          >
-                            Reject
-                          </button>
-                        )}
-                        <button
-                          type="button"
-                          onClick={() =>
-                            updateOrder(order.id, {
-                              paymentStatus:
-                                order.paymentStatus === "Paid" ? "Unpaid" : "Paid",
-                            })
-                          }
-                          className={`rounded-full px-3 py-1.5 text-[11px] font-semibold ${
-                            order.paymentStatus === "Paid"
-                              ? "border border-outline text-on-surface-variant hover:text-primary"
-                              : "bg-emerald-700 text-white hover:bg-emerald-800"
-                          }`}
-                        >
-                          {order.paymentStatus === "Paid"
-                            ? "Mark unpaid"
-                            : "Mark paid"}
-                        </button>
                       </div>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
+                      <p className="mt-1 flex items-center gap-1.5 text-xs text-on-surface-variant">
+                        <MapPin size={13} className="text-primary" />
+                        {request.place} · {request.contactName}
+                      </p>
+                    </div>
+                    <a
+                      href={`tel:${request.phone.replace(/\s/g, "")}`}
+                      className="inline-flex items-center gap-2 rounded-full border border-primary px-3 py-1.5 text-xs font-semibold text-primary hover:bg-primary hover:text-on-primary"
+                    >
+                      <Phone size={13} />
+                      Requester
+                    </a>
+                  </div>
+
+                  <div className="mt-4">
+                    <p className="mb-2 text-[11px] font-semibold uppercase tracking-widest text-on-surface-variant">
+                      Matching donors ({matches.length})
+                    </p>
+                    {matches.length === 0 ? (
+                      <p className="text-xs text-on-surface-variant">No matching available donor found.</p>
+                    ) : (
+                      <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
+                        {matches.map((donor) => {
+                          const isConnected = connection?.donorId === donor.id;
+                          return (
+                            <div
+                              key={donor.id}
+                              className="rounded-xl border border-outline-variant bg-surface-container-lowest px-3 py-2.5"
+                            >
+                              <div className="flex items-center justify-between gap-3">
+                                <div className="min-w-0">
+                                  <p className="truncate text-sm font-medium text-on-surface">{donor.name}</p>
+                                  <p className="truncate text-[11px] text-on-surface-variant">{donor.place}</p>
+                                </div>
+                                <a
+                                  href={`tel:${donor.phone.replace(/\s/g, "")}`}
+                                  className="inline-flex shrink-0 items-center gap-1 rounded-full bg-primary px-3 py-1.5 text-[11px] font-semibold text-on-primary hover:bg-brand-dark"
+                                >
+                                  <Phone size={12} />
+                                  Call
+                                </a>
+                              </div>
+                              <div className="mt-2 flex items-center justify-between gap-2 border-t border-outline-variant pt-2">
+                                <span className="text-[11px] text-on-surface-variant">
+                                  {isConnected ? "Connection status" : "Not connected"}
+                                </span>
+                                {isConnected ? (
+                                  <div className="flex items-center gap-2">
+                                    <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-semibold text-emerald-800">
+                                      <CheckCircle2 size={12} />
+                                      Connected
+                                    </span>
+                                    <button
+                                      type="button"
+                                      onClick={() =>
+                                        disconnectDonorFromRequest(request.id)
+                                      }
+                                      className="text-[10px] font-semibold text-on-surface-variant underline hover:text-error"
+                                    >
+                                      Undo
+                                    </button>
+                                  </div>
+                                ) : (
+                                  <button
+                                    type="button"
+                                    onClick={() =>
+                                      connectDonorToRequest(request.id, donor)
+                                    }
+                                    className="rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-semibold text-emerald-800 hover:bg-emerald-100"
+                                  >
+                                    Connect
+                                  </button>
+                                )}
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         )}
       </div>
 
-      <p className="mt-4 text-xs text-on-surface-variant">
-        Approved and payment changes are sent to the Apps Script sheet when an
-        order has a sheet row. Orders without a row are saved in this browser.
-      </p>
+      <div className="mt-8 grid gap-6 lg:grid-cols-2">
+        <div className="overflow-hidden rounded-3xl border border-outline-variant bg-surface">
+          <div className="border-b border-outline-variant px-6 py-4">
+            <h2 className="font-display text-xl text-on-surface">Recent Donors</h2>
+          </div>
+          {donors.length === 0 ? (
+            <p className="px-6 py-10 text-sm text-on-surface-variant">No donors yet.</p>
+          ) : (
+            <div className="divide-y divide-outline-variant">
+              {donors.slice(0, 20).map((donor) => (
+                <div key={donor.id} className="flex items-center justify-between gap-3 px-6 py-4">
+                  <div className="min-w-0">
+                    <p className="text-sm font-semibold text-on-surface">{donor.name}</p>
+                    <p className="truncate text-xs text-on-surface-variant">
+                      {donor.age} years · {donor.place} · {donor.phone}
+                    </p>
+                    <p className="mt-0.5 text-[11px] text-primary">{donor.availability}</p>
+                  </div>
+                  <span className="shrink-0 rounded-full bg-error-container px-3 py-1 text-xs font-bold text-error">
+                    {donor.bloodGroup}
+                  </span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="overflow-hidden rounded-3xl border border-outline-variant bg-surface">
+          <div className="border-b border-outline-variant px-6 py-4">
+            <h2 className="font-display text-xl text-on-surface">Recent Requests</h2>
+          </div>
+          {requests.length === 0 ? (
+            <p className="px-6 py-10 text-sm text-on-surface-variant">No requests yet.</p>
+          ) : (
+            <div className="divide-y divide-outline-variant">
+              {requests.slice(0, 8).map((request) => (
+                <div key={request.id} className="flex items-center justify-between px-6 py-4">
+                  <div>
+                    <p className="text-sm font-semibold text-on-surface">{request.patientName}</p>
+                    <p className="text-xs text-on-surface-variant">{request.place}</p>
+                  </div>
+                  <div className="text-right">
+                    <span className="rounded-full bg-error-container px-3 py-1 text-xs font-bold text-error">
+                      {request.bloodGroup}
+                    </span>
+                    <p className="mt-1 text-[11px] text-on-surface-variant">{request.urgency}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
     </div>
   );
 }

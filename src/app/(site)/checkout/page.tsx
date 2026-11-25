@@ -12,6 +12,7 @@ import {
   User,
 } from "lucide-react";
 import { useRestaurant } from "@/components/restaurant/restaurant-provider";
+import { localStore } from "@/lib/local-store";
 
 const paymentMethods = ["Cash on delivery", "UPI", "Card", "Pay at counter"];
 
@@ -51,6 +52,11 @@ export default function CheckoutPage() {
       setCouponError("Add items to your cart before applying a coupon.");
       return;
     }
+    if (code === "WELCOME10" && localStore.isWelcome10Used()) {
+      setAppliedCoupon(null);
+      setCouponError("WELCOME10 has already been used and can no longer be applied.");
+      return;
+    }
 
     setApplyingCoupon(true);
     setCouponError("");
@@ -58,7 +64,11 @@ export default function CheckoutPage() {
       const response = await fetch("/api/coupon", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code, total: orderSubtotal }),
+        body: JSON.stringify({
+          code,
+          total: orderSubtotal,
+          usedCodes: localStore.isWelcome10Used() ? ["WELCOME10"] : [],
+        }),
       });
       const result = (await response.json()) as {
         success?: boolean;
@@ -122,6 +132,9 @@ export default function CheckoutPage() {
       notes: notes.trim(),
       paymentMethod,
     });
+    if (appliedCoupon?.code === "WELCOME10") {
+      localStore.setWelcome10Used(true);
+    }
     router.push(`/order-confirmation?id=${order.id}`);
   };
 

@@ -8,6 +8,7 @@ const KEYS = {
   orders: "saffron.orders.v1",
   reservations: "saffron.reservations.v1",
   admin: "saffron.admin.v1",
+  welcome10Used: "saffron.welcome10.used.v1",
 } as const;
 
 export const ADMIN_PASSWORD = "admin@123";
@@ -85,4 +86,6 @@ export const localStore = {
   setReservations: <T,>(value: T) => write(KEYS.reservations, value),
   isAdmin: () => read(KEYS.admin, false),
   setAdmin: (value: boolean) => write(KEYS.admin, value),
+  isWelcome10Used: () => read(KEYS.welcome10Used, false),
+  setWelcome10Used: (value: boolean) => write(KEYS.welcome10Used, value),
 };
