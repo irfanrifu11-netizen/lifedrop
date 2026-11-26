@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { Droplets, LayoutDashboard, LogOut } from "lucide-react";
+import { HeartPulse, LayoutDashboard, LogOut } from "lucide-react";
 import { localStore } from "@/lib/local-store";
 
 const nav = [{ href: "/admin", label: "Dashboard", icon: LayoutDashboard }];
@@ -21,8 +21,8 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
       <aside className="border-b border-outline-variant bg-surface-container-lowest lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-72 lg:flex-col lg:border-b-0 lg:border-r lg:px-4 lg:py-5">
         <div className="border-b border-outline-variant px-5 py-5 lg:rounded-2xl lg:border lg:bg-surface lg:px-4 lg:py-4">
           <div className="flex items-center gap-3">
-            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-primary text-on-primary shadow-sm">
-              <Droplets size={20} />
+            <span className="flex h-11 w-11 items-center justify-center rounded-xl bg-accent text-white shadow-sm">
+              <HeartPulse size={20} />
             </span>
             <div>
               <p className="font-display text-xl leading-none text-on-surface">

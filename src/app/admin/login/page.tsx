@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { ShieldCheck } from "lucide-react";
+import { HeartPulse } from "lucide-react";
 import { useRestaurant } from "@/components/restaurant/restaurant-provider";
 import { ADMIN_PASSWORD, localStore } from "@/lib/local-store";
 
@@ -27,8 +27,8 @@ export default function AdminLoginPage() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-surface-container-low px-5 py-12">
       <div className="w-full max-w-md rounded-[2rem] border border-outline-variant bg-surface p-8 shadow-xl sm:p-10">
-        <span className="mb-6 flex h-12 w-12 items-center justify-center rounded-full bg-primary-container text-primary">
-          <ShieldCheck size={22} />
+        <span className="mb-6 flex h-12 w-12 items-center justify-center rounded-full bg-accent text-white">
+          <HeartPulse size={22} />
         </span>
         <p className="text-[11px] font-semibold uppercase tracking-[0.24em] text-secondary">
           Staff access
