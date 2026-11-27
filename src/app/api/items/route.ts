@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { addRemoteItem, getRemoteItems } from "@/lib/apps-script";
+import { addRemoteItem, deleteRemoteItem, getRemoteItems } from "@/lib/apps-script";
 
 export const dynamic = "force-dynamic";
 
@@ -32,5 +32,18 @@ export async function POST(request: Request) {
   }
 
   const result = await addRemoteItem({ name, price, stock, image });
+  return NextResponse.json(result);
+}
+
+export async function DELETE(request: Request) {
+  const id = Number(new URL(request.url).searchParams.get("id"));
+  if (!Number.isInteger(id) || id <= 0) {
+    return NextResponse.json(
+      { success: false, message: "Invalid item id." },
+      { status: 400 },
+    );
+  }
+
+  const result = await deleteRemoteItem(id);
   return NextResponse.json(result);
 }

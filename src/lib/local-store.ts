@@ -5,6 +5,7 @@ import { useSyncExternalStore } from "react";
 const KEYS = {
   cart: "saffron.cart.v1",
   items: "saffron.items.v1",
+  removedItems: "saffron.removed-items.v1",
   orders: "saffron.orders.v1",
   reservations: "saffron.reservations.v1",
   admin: "saffron.admin.v1",
@@ -80,6 +81,8 @@ export const localStore = {
   setCart: <T,>(value: T) => write(KEYS.cart, value),
   getItems: <T,>(fallback: T) => read(KEYS.items, fallback),
   setItems: <T,>(value: T) => write(KEYS.items, value),
+  getRemovedItems: <T,>(fallback: T) => read(KEYS.removedItems, fallback),
+  setRemovedItems: <T,>(value: T) => write(KEYS.removedItems, value),
   getOrders: <T,>(fallback: T) => read(KEYS.orders, fallback),
   setOrders: <T,>(value: T) => write(KEYS.orders, value),
   getReservations: <T,>(fallback: T) => read(KEYS.reservations, fallback),

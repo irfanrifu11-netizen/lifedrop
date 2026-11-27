@@ -40,6 +40,7 @@ type RestaurantContextValue = {
   addReservation: (data: NewReservation) => Reservation;
   updateReservation: (id: string, status: Reservation["status"]) => void;
   addMenuItem: (data: { name: string; price: number; stock: number; image: string }) => Promise<{ success: boolean; message: string }>;
+  removeMenuItem: (id: number) => Promise<{ success: boolean; message: string }>;
   notice: string;
   setNotice: (message: string) => void;
 };
@@ -61,10 +62,13 @@ export function RestaurantProvider({ children }: { children: React.ReactNode }) 
 
   useEffect(() => {
     const localItems = localStore.getItems<MenuItem[]>([]);
+    const removedIds = new Set(localStore.getRemovedItems<number[]>([]));
     const merge = (remote: MenuItem[]) => {
       const byId = new Map(remote.map((item) => [item.id, item]));
       localItems.forEach((item) => byId.set(item.id, item));
-      setItems(Array.from(byId.values()));
+      setItems(
+        Array.from(byId.values()).filter((item) => !removedIds.has(item.id)),
+      );
     };
 
     fetch("/api/items", { cache: "no-store" })
@@ -271,6 +275,9 @@ export function RestaurantProvider({ children }: { children: React.ReactNode }) 
       };
       const updated = [...items.filter((entry) => entry.id !== id), item];
       localStore.setItems(updated);
+      localStore.setRemovedItems(
+        localStore.getRemovedItems<number[]>([]).filter((entry) => entry !== id),
+      );
       setItems(updated);
       return {
         success: result.success === true,
@@ -282,6 +289,40 @@ export function RestaurantProvider({ children }: { children: React.ReactNode }) 
       };
     },
     [items],
+  );
+
+  const removeMenuItem = useCallback(
+    async (id: number) => {
+      let result: { success?: boolean; message?: string } = {};
+      try {
+        const response = await fetch(`/api/items?id=${id}`, {
+          method: "DELETE",
+        });
+        result = (await response.json()) as {
+          success?: boolean;
+          message?: string;
+        };
+      } catch {
+        result = {};
+      }
+
+      const updated = items.filter((entry) => entry.id !== id);
+      localStore.setItems(updated);
+      localStore.setRemovedItems([
+        ...new Set([...localStore.getRemovedItems<number[]>([]), id]),
+      ]);
+      localStore.setCart(storedCart.filter((line) => line.itemId !== id));
+      setItems(updated);
+      return {
+        success: result.success === true,
+        message:
+          result.message ??
+          (result.success
+            ? "Item removed from Apps Script and this browser."
+            : "Item removed from this browser only."),
+      };
+    },
+    [items, storedCart],
   );
 
   useEffect(() => {
@@ -309,6 +350,7 @@ export function RestaurantProvider({ children }: { children: React.ReactNode }) 
     addReservation,
     updateReservation,
     addMenuItem,
+    removeMenuItem,
     notice,
     setNotice,
   };

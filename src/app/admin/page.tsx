@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo, useState } from "react";
 import {
   CheckCircle2,
   Droplets,
@@ -7,20 +8,89 @@ import {
   MapPin,
   Phone,
   RefreshCw,
+  Search,
   Users,
 } from "lucide-react";
 import {
+  BLOOD_GROUPS,
   connectDonorToRequest,
   disconnectDonorFromRequest,
   useConnections,
   useDonors,
   useRequests,
 } from "@/lib/lifedrop-store";
+import type { BloodGroup, Urgency } from "@/lib/lifedrop-store";
+
+type ConnectionFilter = "all" | "connected" | "unconnected";
 
 export default function AdminDashboardPage() {
   const donors = useDonors();
   const requests = useRequests();
   const connections = useConnections();
+
+  const [query, setQuery] = useState("");
+  const [appliedQuery, setAppliedQuery] = useState("");
+  const [bloodGroup, setBloodGroup] = useState<"All" | BloodGroup>("All");
+  const [urgency, setUrgency] = useState<"All" | Urgency>("All");
+  const [connectionFilter, setConnectionFilter] =
+    useState<ConnectionFilter>("all");
+  const [showAllDonors, setShowAllDonors] = useState(false);
+  const [showAllRequests, setShowAllRequests] = useState(false);
+
+  const filteredRequests = useMemo(() => {
+    const search = appliedQuery.trim().toLowerCase();
+    return requests.filter((request) => {
+      const matchesSearch =
+        !search ||
+        [request.patientName, request.place, request.contactName, request.phone]
+          .join(" ")
+          .toLowerCase()
+          .includes(search) ||
+        donors.some(
+          (donor) =>
+            (donor.name.toLowerCase().includes(search) ||
+              donor.place.toLowerCase().includes(search) ||
+              (donor.district ?? "").toLowerCase().includes(search)) &&
+            donor.bloodGroup === request.bloodGroup &&
+            donor.consent &&
+            donor.availability === "Available",
+        );
+      const matchesBloodGroup =
+        bloodGroup === "All" || request.bloodGroup === bloodGroup;
+      const matchesUrgency = urgency === "All" || request.urgency === urgency;
+      const isConnected = connections.some(
+        (connection) => connection.requestId === request.id,
+      );
+      const matchesConnection =
+        connectionFilter === "all" ||
+        (connectionFilter === "connected" ? isConnected : !isConnected);
+      return (
+        matchesSearch && matchesBloodGroup && matchesUrgency && matchesConnection
+      );
+    });
+  }, [requests, donors, connections, appliedQuery, bloodGroup, urgency, connectionFilter]);
+
+  const handleSearch = (event: React.FormEvent) => {
+    event.preventDefault();
+    setAppliedQuery(query.trim());
+  };
+
+  const hasFilters =
+    appliedQuery !== "" ||
+    bloodGroup !== "All" ||
+    urgency !== "All" ||
+    connectionFilter !== "all";
+
+  const clearFilters = () => {
+    setQuery("");
+    setAppliedQuery("");
+    setBloodGroup("All");
+    setUrgency("All");
+    setConnectionFilter("all");
+  };
+
+  const inputClass =
+    "w-full rounded-xl border border-outline bg-surface px-4 py-3 text-sm outline-none focus:border-primary";
 
   const totalDonors = donors.length;
   const totalRequests = requests.length;
@@ -76,22 +146,146 @@ export default function AdminDashboardPage() {
 
       <div className="mt-8 overflow-hidden rounded-3xl border border-outline-variant bg-surface shadow-card">
         <div className="border-b border-outline-variant px-6 py-4">
-          <h2 className="font-display text-xl text-on-surface">Connect Donors to Requests</h2>
+          <h2 className="font-display text-xl text-on-surface">
+            {`Connect Donors to Requests${hasFilters ? ` (${filteredRequests.length})` : ""}`}
+          </h2>
           <p className="mt-1 text-xs text-on-surface-variant">
             Matching donors by blood group and availability.
           </p>
         </div>
-        {requests.length === 0 ? (
-          <p className="px-6 py-10 text-sm text-on-surface-variant">No blood requests yet.</p>
+        <form
+          onSubmit={handleSearch}
+          className="flex flex-wrap items-end gap-3 border-b border-outline-variant px-6 py-4"
+        >
+          <label className="min-w-[200px] flex-1">
+            <span className="mb-1.5 block text-xs font-semibold text-on-surface-variant">
+              Search requests
+            </span>
+            <span className="relative block">
+              <Search
+                size={15}
+                className="absolute left-3 top-1/2 -translate-y-1/2 text-secondary"
+              />
+              <input
+                className={`${inputClass} pl-9`}
+                value={query}
+                onChange={(event) => {
+                  const value = event.target.value;
+                  setQuery(value);
+                  setAppliedQuery(value.trim());
+                }}
+                placeholder="Patient, donor, place or contact"
+              />
+            </span>
+          </label>
+          <label className="w-full sm:w-32">
+            <span className="mb-1.5 block text-xs font-semibold text-on-surface-variant">
+              Blood group
+            </span>
+            <select
+              className={inputClass}
+              value={bloodGroup}
+              onChange={(event) =>
+                setBloodGroup(event.target.value as "All" | BloodGroup)
+              }
+            >
+              <option value="All">All groups</option>
+              {BLOOD_GROUPS.map((group) => (
+                <option key={group} value={group}>
+                  {group}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label className="w-full sm:w-32">
+            <span className="mb-1.5 block text-xs font-semibold text-on-surface-variant">
+              Urgency
+            </span>
+            <select
+              className={inputClass}
+              value={urgency}
+              onChange={(event) => setUrgency(event.target.value as "All" | Urgency)}
+            >
+              <option value="All">All</option>
+              <option value="Normal">Normal</option>
+              <option value="Urgent">Urgent</option>
+              <option value="Critical">Critical</option>
+            </select>
+          </label>
+          <label className="w-full sm:w-40">
+            <span className="mb-1.5 block text-xs font-semibold text-on-surface-variant">
+              Status
+            </span>
+            <select
+              className={inputClass}
+              value={connectionFilter}
+              onChange={(event) =>
+                setConnectionFilter(event.target.value as ConnectionFilter)
+              }
+            >
+              <option value="all">All requests</option>
+              <option value="connected">Connected</option>
+              <option value="unconnected">Not connected</option>
+            </select>
+          </label>
+          <button
+            type="submit"
+            className="rounded-xl bg-primary px-5 py-3 text-xs font-semibold uppercase tracking-widest text-on-primary hover:bg-brand-dark"
+          >
+            Search
+          </button>
+          {hasFilters && (
+            <button
+              type="button"
+              onClick={clearFilters}
+              className="rounded-xl border border-outline px-4 py-3 text-xs font-semibold uppercase tracking-widest text-on-surface-variant hover:border-primary hover:text-primary"
+            >
+              Clear
+            </button>
+          )}
+        </form>
+        {!hasFilters && requests.length > 0 ? (
+          <div className="px-6 py-10 text-center">
+            <p className="text-sm text-on-surface-variant">
+              Use the filters above to find matching donors.
+            </p>
+          </div>
+        ) : filteredRequests.length === 0 ? (
+          <div className="px-6 py-10 text-center">
+            <p className="text-sm text-on-surface-variant">
+              {requests.length === 0
+                ? "No blood requests yet."
+                : "No requests match these filters."}
+            </p>
+            {requests.length > 0 && (
+              <button
+                type="button"
+                onClick={clearFilters}
+                className="mt-4 rounded-xl border border-outline px-4 py-2 text-xs font-semibold uppercase tracking-widest text-on-surface-variant hover:border-primary hover:text-primary"
+              >
+                Clear filters
+              </button>
+            )}
+          </div>
         ) : (
           <div className="divide-y divide-outline-variant">
-            {requests.map((request) => {
+            {filteredRequests.map((request) => {
               const matches = donors.filter(
                 (donor) =>
                   donor.bloodGroup === request.bloodGroup &&
                   donor.consent &&
                   donor.availability === "Available",
               );
+              const donorSearch = appliedQuery.trim().toLowerCase();
+              const donorMatches = donorSearch
+                ? matches.filter(
+                    (donor) =>
+                      donor.name.toLowerCase().includes(donorSearch) ||
+                      donor.place.toLowerCase().includes(donorSearch) ||
+                      (donor.district ?? "").toLowerCase().includes(donorSearch),
+                  )
+                : [];
+              const visibleMatches = donorMatches.length ? donorMatches : matches;
               const connection = connections.find(
                 (item) => item.requestId === request.id,
               );
@@ -127,13 +321,13 @@ export default function AdminDashboardPage() {
 
                   <div className="mt-4">
                     <p className="mb-2 text-[11px] font-semibold uppercase tracking-widest text-on-surface-variant">
-                      Matching donors ({matches.length})
+                      Matching donors ({visibleMatches.length})
                     </p>
-                    {matches.length === 0 ? (
+                    {visibleMatches.length === 0 ? (
                       <p className="text-xs text-on-surface-variant">No matching available donor found.</p>
                     ) : (
                       <div className="grid gap-2 sm:grid-cols-2 xl:grid-cols-3">
-                        {matches.map((donor) => {
+                        {visibleMatches.map((donor) => {
                           const isConnected = connection?.donorId === donor.id;
                           return (
                             <div
@@ -206,22 +400,33 @@ export default function AdminDashboardPage() {
           {donors.length === 0 ? (
             <p className="px-6 py-10 text-sm text-on-surface-variant">No donors yet.</p>
           ) : (
-            <div className="divide-y divide-outline-variant">
-              {donors.slice(0, 20).map((donor) => (
-                <div key={donor.id} className="flex items-center justify-between gap-3 px-6 py-4">
-                  <div className="min-w-0">
-                    <p className="text-sm font-semibold text-on-surface">{donor.name}</p>
-                    <p className="truncate text-xs text-on-surface-variant">
-                      {donor.age} years · {donor.district || donor.place} · {donor.phone}
-                    </p>
-                    <p className="mt-0.5 text-[11px] text-accent">{donor.availability}</p>
+            <>
+              <div className="divide-y divide-outline-variant">
+                {(showAllDonors ? donors : donors.slice(0, 2)).map((donor) => (
+                  <div key={donor.id} className="flex items-center justify-between gap-3 px-6 py-4">
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold text-on-surface">{donor.name}</p>
+                      <p className="truncate text-xs text-on-surface-variant">
+                        {donor.age} years · {donor.district || donor.place} · {donor.phone}
+                      </p>
+                      <p className="mt-0.5 text-[11px] text-accent">{donor.availability}</p>
+                    </div>
+                    <span className="shrink-0 rounded-full bg-error-container px-3 py-1 text-xs font-bold text-error">
+                      {donor.bloodGroup}
+                    </span>
                   </div>
-                  <span className="shrink-0 rounded-full bg-error-container px-3 py-1 text-xs font-bold text-error">
-                    {donor.bloodGroup}
-                  </span>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+              {donors.length > 2 && (
+                <button
+                  type="button"
+                  onClick={() => setShowAllDonors((current) => !current)}
+                  className="w-full border-t border-outline-variant px-6 py-3 text-xs font-semibold uppercase tracking-widest text-primary hover:bg-surface-container"
+                >
+                  {showAllDonors ? "Show less" : `See more (${donors.length - 2})`}
+                </button>
+              )}
+            </>
           )}
         </div>
 
@@ -232,24 +437,35 @@ export default function AdminDashboardPage() {
           {requests.length === 0 ? (
             <p className="px-6 py-10 text-sm text-on-surface-variant">No requests yet.</p>
           ) : (
-            <div className="divide-y divide-outline-variant">
-              {requests.slice(0, 8).map((request) => (
-                <div key={request.id} className="flex items-center justify-between px-6 py-4">
-                  <div>
-                    <p className="text-sm font-semibold text-on-surface">{request.patientName}</p>
-                    <p className="text-xs text-on-surface-variant">
-                      {request.district || request.place}
-                    </p>
+            <>
+              <div className="divide-y divide-outline-variant">
+                {(showAllRequests ? requests : requests.slice(0, 2)).map((request) => (
+                  <div key={request.id} className="flex items-center justify-between px-6 py-4">
+                    <div>
+                      <p className="text-sm font-semibold text-on-surface">{request.patientName}</p>
+                      <p className="text-xs text-on-surface-variant">
+                        {request.district || request.place}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <span className="rounded-full bg-error-container px-3 py-1 text-xs font-bold text-error">
+                        {request.bloodGroup}
+                      </span>
+                      <p className="mt-1 text-[11px] text-on-surface-variant">{request.urgency}</p>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <span className="rounded-full bg-error-container px-3 py-1 text-xs font-bold text-error">
-                      {request.bloodGroup}
-                    </span>
-                    <p className="mt-1 text-[11px] text-on-surface-variant">{request.urgency}</p>
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+              {requests.length > 2 && (
+                <button
+                  type="button"
+                  onClick={() => setShowAllRequests((current) => !current)}
+                  className="w-full border-t border-outline-variant px-6 py-3 text-xs font-semibold uppercase tracking-widest text-primary hover:bg-surface-container"
+                >
+                  {showAllRequests ? "Show less" : `See more (${requests.length - 2})`}
+                </button>
+              )}
+            </>
           )}
         </div>
       </div>

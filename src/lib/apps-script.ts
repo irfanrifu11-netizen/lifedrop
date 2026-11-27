@@ -101,6 +101,14 @@ export async function addRemoteItem(data: {
   };
 }
 
+export async function deleteRemoteItem(id: number): Promise<ActionResult> {
+  const result = asRecord(await postAction("deleteItem", { id }));
+  return {
+    success: result.success === true,
+    message: String(result.message ?? "Unable to delete item."),
+  };
+}
+
 export async function addRemoteOrder(data: Record<string, unknown>): Promise<ActionResult> {
   const result = asRecord(await postAction("addOrder", data));
   return {
