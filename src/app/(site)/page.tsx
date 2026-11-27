@@ -1,5 +1,6 @@
 import Link from "next/link";
 import {
+  AlertTriangle,
   ArrowRight,
   Droplet,
   Droplets,
@@ -32,6 +33,24 @@ export default function HomePage() {
               donors nearby. Search, request, or donate through one simple,
               trusted flow.
             </p>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link
+                href="/#find"
+                className="inline-flex items-center gap-2 rounded-full bg-primary px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.18em] text-on-primary shadow-lg transition hover:bg-brand-dark"
+              >
+                <Search size={15} />
+                Find Donors
+                <ArrowRight size={15} />
+              </Link>
+              <Link
+                href="/#request"
+                className="inline-flex items-center gap-2 rounded-full border border-accent bg-white px-7 py-3.5 text-xs font-semibold uppercase tracking-[0.18em] text-accent shadow-sm transition hover:bg-secondary-container"
+              >
+                <AlertTriangle size={15} />
+                Blood Request
+                <ArrowRight size={15} />
+              </Link>
+            </div>
           </div>
 
           <div className="relative w-full">

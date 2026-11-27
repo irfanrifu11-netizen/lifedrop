@@ -31,6 +31,16 @@ export function DonorRequestTabs() {
     };
   }, []);
 
+  useEffect(() => {
+    if (window.location.hash.replace("#", "") !== active) return;
+    const target = document.getElementById(active);
+    if (!target) return;
+    const frame = window.requestAnimationFrame(() => {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [active]);
+
   const selectTab = (tab: Tab) => {
     setActive(tab);
     window.history.replaceState(null, "", `#${tab}`);
