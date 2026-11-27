@@ -13,6 +13,23 @@ export const BLOOD_GROUPS = [
   "O-",
 ] as const;
 
+export const DISTRICTS = [
+  "Alappuzha",
+  "Ernakulam",
+  "Idukki",
+  "Kannur",
+  "Kasaragod",
+  "Kollam",
+  "Kottayam",
+  "Kozhikode",
+  "Malappuram",
+  "Palakkad",
+  "Pathanamthitta",
+  "Thiruvananthapuram",
+  "Thrissur",
+  "Wayanad",
+] as const;
+
 export type BloodGroup = (typeof BLOOD_GROUPS)[number];
 
 export type Donor = {
@@ -21,6 +38,7 @@ export type Donor = {
   age: number;
   phone: string;
   bloodGroup: BloodGroup;
+  district?: string;
   place: string;
   consent: boolean;
   availability: string;
@@ -41,6 +59,7 @@ export type BloodRequest = {
   id: string;
   patientName: string;
   bloodGroup: BloodGroup;
+  district?: string;
   place: string;
   contactName: string;
   phone: string;
@@ -52,6 +71,8 @@ export type BloodRequest = {
 const DONORS_KEY = "lifedrop.donors.v1";
 const REQUESTS_KEY = "lifedrop.requests.v1";
 const CONNECTIONS_KEY = "lifedrop.connections.v1";
+
+export const isNativeBuild = process.env.NEXT_PUBLIC_NATIVE === "1";
 
 export const seedDonors: Donor[] = [
   {
@@ -431,7 +452,7 @@ function notify() {
 }
 
 export async function refreshDonorsFromSheet(): Promise<void> {
-  if (typeof window === "undefined" || remoteDonorsLoaded) return;
+  if (typeof window === "undefined" || remoteDonorsLoaded || isNativeBuild) return;
   remoteDonorsLoaded = true;
   try {
     const response = await fetch("/api/donors", { cache: "no-store" });
@@ -493,6 +514,7 @@ function normalizeDonor(value: unknown): Donor | null {
     age: Number.isInteger(age) ? age : 0,
     phone,
     bloodGroup,
+    district: String(row.district ?? "").trim() || place,
     place,
     consent:
       row.consent !== false &&
@@ -620,6 +642,13 @@ export function useConnections(): DonorConnection[] {
 export async function syncDonorToSheet(
   donor: Donor,
 ): Promise<{ success: boolean; message?: string }> {
+  if (isNativeBuild) {
+    return {
+      success: true,
+      message: "Saved on this device. Connect a backend to sync across devices.",
+    };
+  }
+
   try {
     const response = await fetch("/api/donors", {
       method: "POST",

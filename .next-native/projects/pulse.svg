@@ -1,0 +1,176 @@
+<svg width="1600" height="1100" viewBox="0 0 1600 1100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="100" y1="0" x2="1500" y2="1100" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0A0711"/>
+      <stop offset="0.5" stop-color="#07070C"/>
+      <stop offset="1" stop-color="#0E0715"/>
+    </linearGradient>
+    <radialGradient id="cyan" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1110 410) rotate(124) scale(590)">
+      <stop stop-color="#22D3EE" stop-opacity="0.3"/>
+      <stop offset="1" stop-color="#22D3EE" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="violet" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(700 760) rotate(-48) scale(540)">
+      <stop stop-color="#8B5CF6" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#8B5CF6" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="core" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(995 501) rotate(47) scale(330)">
+      <stop stop-color="#CFFAFE"/>
+      <stop offset="0.2" stop-color="#67E8F9"/>
+      <stop offset="0.48" stop-color="#38BDF8" stop-opacity="0.8"/>
+      <stop offset="0.78" stop-color="#8B5CF6" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#8B5CF6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="wave" x1="690" y1="0" x2="1300" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8B5CF6" stop-opacity="0.1"/>
+      <stop offset="0.3" stop-color="#67E8F9"/>
+      <stop offset="0.7" stop-color="#A78BFA"/>
+      <stop offset="1" stop-color="#8B5CF6" stop-opacity="0.1"/>
+    </linearGradient>
+    <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
+      <path d="M80 0H0V80" stroke="white" stroke-opacity="0.05"/>
+    </pattern>
+    <filter id="blur50" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="50"/></filter>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope="0.14"/></feComponentTransfer></filter>
+    <clipPath id="clip"><rect width="1600" height="1100"/></clipPath>
+  </defs>
+  <g clip-path="url(#clip)">
+    <rect width="1600" height="1100" fill="url(#bg)"/>
+    <rect width="1600" height="1100" fill="url(#cyan)"/>
+    <rect width="1600" height="1100" fill="url(#violet)"/>
+    <rect width="1600" height="1100" fill="url(#grid)"/>
+    <path d="M80 0V1100M1520 0V1100" stroke="white" stroke-opacity="0.07"/>
+    <path d="M0 120H1600" stroke="white" stroke-opacity="0.07"/>
+
+    <g transform="translate(80 64)">
+      <text x="0" y="24" fill="white" font-family="Arial, sans-serif" font-size="16" font-weight="600" letter-spacing="6">PULSE</text>
+      <text x="1200" y="23" fill="white" fill-opacity="0.4" font-family="monospace" font-size="9" letter-spacing="1.7">AI AUDIO LABS</text>
+      <circle cx="1400" cy="17" r="15" stroke="white" stroke-opacity="0.17"/>
+      <path d="M1394 17H1406M1401 12V22" stroke="white" stroke-opacity="0.7"/>
+    </g>
+
+    <g transform="translate(80 238)">
+      <rect x="0" y="0" width="150" height="28" rx="14" stroke="white" stroke-opacity="0.14"/>
+      <circle cx="16" cy="14" r="3" fill="#67E8F9"/>
+      <text x="28" y="18" fill="white" fill-opacity="0.62" font-family="monospace" font-size="8" letter-spacing="1.7">REAL-TIME SOUND</text>
+      <text x="0" y="128" fill="white" font-family="Arial, sans-serif" font-size="92" letter-spacing="-5">Feel every</text>
+      <text x="0" y="218" fill="white" font-family="Arial, sans-serif" font-size="92" letter-spacing="-5">frequency<tspan fill="#67E8F9">.</tspan></text>
+      <text x="2" y="270" fill="white" fill-opacity="0.4" font-family="Arial, sans-serif" font-size="14">An intelligent audio workspace that listens as closely as you do.</text>
+      <rect x="0" y="322" width="153" height="46" rx="23" fill="#F3F1EB"/>
+      <text x="24" y="349" fill="#08080C" font-family="Arial, sans-serif" font-size="11">Try the experience</text>
+      <circle cx="131" cy="345" r="11" fill="#08080C" fill-opacity="0.08"/>
+      <path d="M128 341L132 345L128 349" stroke="#08080C" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      <g transform="translate(0 440)">
+        <text x="0" y="0" fill="white" fill-opacity="0.33" font-family="monospace" font-size="8" letter-spacing="1.5">NOW PLAYING</text>
+        <text x="0" y="33" fill="white" font-family="Arial, sans-serif" font-size="18">Nocturne in Electric</text>
+        <text x="0" y="53" fill="white" fill-opacity="0.38" font-family="Arial, sans-serif" font-size="11">Generated · 03:42</text>
+        <g transform="translate(0 92)">
+          <circle cx="22" cy="22" r="22" fill="#67E8F9" fill-opacity="0.12" stroke="#67E8F9" stroke-opacity="0.4"/>
+          <path d="M18 16L28 22L18 28V16Z" fill="#CFFAFE"/>
+          <path d="M58 22H310" stroke="white" stroke-opacity="0.12"/>
+          <path d="M58 22H178" stroke="#67E8F9" stroke-opacity="0.7"/>
+          <circle cx="178" cy="22" r="3" fill="#CFFAFE"/>
+          <text x="328" y="26" fill="white" fill-opacity="0.3" font-family="monospace" font-size="9">01:48</text>
+        </g>
+      </g>
+    </g>
+
+    <g transform="translate(704 194)">
+      <circle cx="432" cy="390" r="345" stroke="white" stroke-opacity="0.06"/>
+      <circle cx="432" cy="390" r="280" stroke="white" stroke-opacity="0.08" stroke-dasharray="2 9"/>
+      <circle cx="432" cy="390" r="215" stroke="white" stroke-opacity="0.1"/>
+      <circle cx="432" cy="390" r="170" fill="url(#core)" filter="url(#blur50)" opacity="0.9"/>
+      <circle cx="432" cy="390" r="140" stroke="#CFFAFE" stroke-opacity="0.18"/>
+      <circle cx="432" cy="390" r="92" stroke="#CFFAFE" stroke-opacity="0.22"/>
+
+      <g transform="translate(54 360)" stroke="url(#wave)" stroke-linecap="round">
+        <path d="M0 30V30" stroke-width="2"/>
+        <path d="M12 15V45" stroke-width="2"/>
+        <path d="M24 5V55" stroke-width="2"/>
+        <path d="M36 22V38" stroke-width="2"/>
+        <path d="M48 -10V70" stroke-width="3"/>
+        <path d="M60 8V52" stroke-width="2"/>
+        <path d="M72 24V36" stroke-width="2"/>
+        <path d="M84 -18V78" stroke-width="3"/>
+        <path d="M96 10V50" stroke-width="2"/>
+        <path d="M108 20V40" stroke-width="2"/>
+        <path d="M120 -6V66" stroke-width="2"/>
+        <path d="M132 14V46" stroke-width="2"/>
+        <path d="M144 26V34" stroke-width="2"/>
+        <path d="M156 -12V72" stroke-width="2"/>
+        <path d="M168 4V56" stroke-width="2"/>
+        <path d="M180 20V40" stroke-width="2"/>
+        <path d="M192 -20V80" stroke-width="3"/>
+        <path d="M204 12V48" stroke-width="2"/>
+        <path d="M216 22V38" stroke-width="2"/>
+        <path d="M228 -4V64" stroke-width="2"/>
+        <path d="M240 8V52" stroke-width="2"/>
+        <path d="M252 18V42" stroke-width="2"/>
+        <path d="M264 -14V74" stroke-width="3"/>
+        <path d="M276 14V46" stroke-width="2"/>
+        <path d="M288 24V36" stroke-width="2"/>
+        <path d="M300 -8V68" stroke-width="2"/>
+        <path d="M312 4V56" stroke-width="2"/>
+        <path d="M324 20V40" stroke-width="2"/>
+        <path d="M336 -18V78" stroke-width="3"/>
+        <path d="M348 10V50" stroke-width="2"/>
+        <path d="M360 22V38" stroke-width="2"/>
+        <path d="M372 -6V66" stroke-width="2"/>
+        <path d="M384 16V44" stroke-width="2"/>
+        <path d="M396 26V34" stroke-width="2"/>
+        <path d="M408 -10V70" stroke-width="2"/>
+        <path d="M420 8V52" stroke-width="2"/>
+        <path d="M432 20V40" stroke-width="2"/>
+        <path d="M444 -16V76" stroke-width="3"/>
+        <path d="M456 12V48" stroke-width="2"/>
+        <path d="M468 24V36" stroke-width="2"/>
+        <path d="M480 -4V64" stroke-width="2"/>
+        <path d="M492 8V52" stroke-width="2"/>
+        <path d="M504 22V38" stroke-width="2"/>
+        <path d="M516 -12V72" stroke-width="2"/>
+        <path d="M528 14V46" stroke-width="2"/>
+        <path d="M540 25V35" stroke-width="2"/>
+        <path d="M552 2V58" stroke-width="2"/>
+        <path d="M564 18V42" stroke-width="2"/>
+        <path d="M576 -8V68" stroke-width="2"/>
+        <path d="M588 10V50" stroke-width="2"/>
+        <path d="M600 22V38" stroke-width="2"/>
+        <path d="M702 28V32" stroke-width="2"/>
+        <path d="M714 16V44" stroke-width="2"/>
+        <path d="M726 8V52" stroke-width="2"/>
+        <path d="M738 22V38" stroke-width="2"/>
+      </g>
+
+      <g opacity="0.55" fill="#CFFAFE">
+        <circle cx="432" cy="390" r="4"/>
+        <circle cx="432" cy="250" r="2"/>
+        <circle cx="432" cy="530" r="2"/>
+        <circle cx="292" cy="390" r="2"/>
+        <circle cx="572" cy="390" r="2"/>
+      </g>
+      <circle cx="432" cy="390" r="42" fill="#0A0B12" fill-opacity="0.6" stroke="#CFFAFE" stroke-opacity="0.3"/>
+      <path d="M427 377L445 390L427 403V377Z" fill="#CFFAFE"/>
+      <circle cx="614" cy="176" r="3" fill="#A78BFA"/>
+      <circle cx="204" cy="610" r="2" fill="#67E8F9"/>
+    </g>
+
+    <g transform="translate(1100 840)">
+      <rect width="420" height="180" rx="22" fill="white" fill-opacity="0.045" stroke="white" stroke-opacity="0.1"/>
+      <circle cx="36" cy="36" r="16" fill="#67E8F9" fill-opacity="0.12"/>
+      <path d="M30 36C32 29 34 43 37 36C39 30 41 42 44 36" stroke="#CFFAFE" stroke-width="1.4" stroke-linecap="round"/>
+      <text x="64" y="41" fill="white" font-family="Arial, sans-serif" font-size="13">Neural mastering</text>
+      <path d="M24 68H396" stroke="white" stroke-opacity="0.08"/>
+      <g transform="translate(24 91)">
+        <path d="M0 39C18 39 18 15 36 15C54 15 54 50 72 50C90 50 90 25 108 25C126 25 126 43 144 43C162 43 162 9 180 9C198 9 198 36 216 36C234 36 234 19 252 19C270 19 270 46 288 46C306 46 306 26 324 26C342 26 342 38 360 38" stroke="#67E8F9" stroke-opacity="0.6" stroke-width="1.4" stroke-linecap="round"/>
+        <text x="0" y="74" fill="white" fill-opacity="0.32" font-family="monospace" font-size="8" letter-spacing="1.2">ADAPTIVE EQ · WIDTH · DYNAMICS</text>
+      </g>
+    </g>
+
+    <g transform="translate(80 944)">
+      <text x="0" y="0" fill="white" fill-opacity="0.2" font-family="monospace" font-size="8" letter-spacing="1.6">EXPERIMENT 004</text>
+      <path d="M0 26H686" stroke="white" stroke-opacity="0.1"/>
+      <path d="M0 26H216" stroke="#67E8F9" stroke-opacity="0.5"/>
+    </g>
+
+    <rect width="1600" height="1100" filter="url(#grain)" opacity="0.5"/>
+  </g>
+</svg>

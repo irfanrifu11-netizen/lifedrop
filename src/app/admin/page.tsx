@@ -57,7 +57,7 @@ export default function AdminDashboardPage() {
         ].map((stat) => (
           <div
             key={stat.label}
-            className="rounded-2xl border border-outline-variant bg-surface p-6"
+              className="lift-card rounded-2xl border border-outline-variant bg-surface p-6 shadow-card"
           >
             <div className="flex items-center justify-between">
               <p className="text-xs font-semibold uppercase tracking-widest text-on-surface-variant">
@@ -74,7 +74,7 @@ export default function AdminDashboardPage() {
         ))}
       </div>
 
-      <div className="mt-8 overflow-hidden rounded-3xl border border-outline-variant bg-surface">
+      <div className="mt-8 overflow-hidden rounded-3xl border border-outline-variant bg-surface shadow-card">
         <div className="border-b border-outline-variant px-6 py-4">
           <h2 className="font-display text-xl text-on-surface">Connect Donors to Requests</h2>
           <p className="mt-1 text-xs text-on-surface-variant">
@@ -199,7 +199,7 @@ export default function AdminDashboardPage() {
       </div>
 
       <div className="mt-8 grid gap-6 lg:grid-cols-2">
-        <div className="overflow-hidden rounded-3xl border border-outline-variant bg-surface">
+        <div className="lift-card overflow-hidden rounded-3xl border border-outline-variant bg-surface shadow-card">
           <div className="border-b border-outline-variant px-6 py-4">
             <h2 className="font-display text-xl text-on-surface">Recent Donors</h2>
           </div>
@@ -212,9 +212,9 @@ export default function AdminDashboardPage() {
                   <div className="min-w-0">
                     <p className="text-sm font-semibold text-on-surface">{donor.name}</p>
                     <p className="truncate text-xs text-on-surface-variant">
-                      {donor.age} years · {donor.place} · {donor.phone}
+                      {donor.age} years · {donor.district || donor.place} · {donor.phone}
                     </p>
-                    <p className="mt-0.5 text-[11px] text-primary">{donor.availability}</p>
+                    <p className="mt-0.5 text-[11px] text-accent">{donor.availability}</p>
                   </div>
                   <span className="shrink-0 rounded-full bg-error-container px-3 py-1 text-xs font-bold text-error">
                     {donor.bloodGroup}
@@ -225,7 +225,7 @@ export default function AdminDashboardPage() {
           )}
         </div>
 
-        <div className="overflow-hidden rounded-3xl border border-outline-variant bg-surface">
+        <div className="lift-card overflow-hidden rounded-3xl border border-outline-variant bg-surface shadow-card">
           <div className="border-b border-outline-variant px-6 py-4">
             <h2 className="font-display text-xl text-on-surface">Recent Requests</h2>
           </div>
@@ -237,7 +237,9 @@ export default function AdminDashboardPage() {
                 <div key={request.id} className="flex items-center justify-between px-6 py-4">
                   <div>
                     <p className="text-sm font-semibold text-on-surface">{request.patientName}</p>
-                    <p className="text-xs text-on-surface-variant">{request.place}</p>
+                    <p className="text-xs text-on-surface-variant">
+                      {request.district || request.place}
+                    </p>
                   </div>
                   <div className="text-right">
                     <span className="rounded-full bg-error-container px-3 py-1 text-xs font-bold text-error">

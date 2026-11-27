@@ -1,0 +1,135 @@
+<svg width="1600" height="1100" viewBox="0 0 1600 1100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="0" x2="1480" y2="1100" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0C0E18"/>
+      <stop offset="0.55" stop-color="#07080D"/>
+      <stop offset="1" stop-color="#090A11"/>
+    </linearGradient>
+    <radialGradient id="blueGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1010 290) rotate(116) scale(690 520)">
+      <stop stop-color="#4F64FF" stop-opacity="0.46"/>
+      <stop offset="1" stop-color="#4F64FF" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="violetGlow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1320 870) rotate(-140) scale(430)">
+      <stop stop-color="#8B5CF6" stop-opacity="0.36"/>
+      <stop offset="1" stop-color="#8B5CF6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="chartLine" x1="760" y1="720" x2="1420" y2="450" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#5A6DFF" stop-opacity="0.1"/>
+      <stop offset="0.45" stop-color="#7890FF"/>
+      <stop offset="1" stop-color="#C4B5FD"/>
+    </linearGradient>
+    <linearGradient id="chartFill" x1="970" y1="420" x2="1110" y2="780" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6278FF" stop-opacity="0.34"/>
+      <stop offset="1" stop-color="#6278FF" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="card" x1="740" y1="300" x2="1450" y2="870" gradientUnits="userSpaceOnUse">
+      <stop stop-color="white" stop-opacity="0.09"/>
+      <stop offset="1" stop-color="white" stop-opacity="0.025"/>
+    </linearGradient>
+    <linearGradient id="btn" x1="1300" y1="100" x2="1400" y2="150" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F3F1EB"/>
+      <stop offset="1" stop-color="#C7CBF4"/>
+    </linearGradient>
+    <pattern id="grid" width="80" height="80" patternUnits="userSpaceOnUse">
+      <path d="M80 0H0V80" stroke="white" stroke-opacity="0.055"/>
+    </pattern>
+    <filter id="blur" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="42"/></filter>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.75" numOctaves="3"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope="0.13"/></feComponentTransfer></filter>
+    <clipPath id="clip"><rect width="1600" height="1100"/></clipPath>
+  </defs>
+  <g clip-path="url(#clip)">
+    <rect width="1600" height="1100" fill="url(#bg)"/>
+    <rect width="1600" height="1100" fill="url(#blueGlow)"/>
+    <rect width="1600" height="1100" fill="url(#violetGlow)"/>
+    <rect width="1600" height="1100" fill="url(#grid)"/>
+    <ellipse cx="1120" cy="870" rx="460" ry="130" fill="#6278FF" opacity="0.1" filter="url(#blur)"/>
+
+    <g opacity="0.65">
+      <path d="M80 130H1520" stroke="white" stroke-opacity="0.08"/>
+      <path d="M80 132V160" stroke="white" stroke-opacity="0.12"/>
+      <path d="M1520 132V160" stroke="white" stroke-opacity="0.12"/>
+    </g>
+
+    <g transform="translate(80 66)">
+      <circle cx="18" cy="18" r="17" stroke="white" stroke-opacity="0.22"/>
+      <circle cx="18" cy="18" r="6" fill="#8FA0FF"/>
+      <text x="52" y="24" fill="white" font-family="Arial, sans-serif" font-size="14" letter-spacing="6">NOVA</text>
+      <text x="190" y="24" fill="white" fill-opacity="0.55" font-family="Arial, sans-serif" font-size="12">Overview</text>
+      <text x="283" y="24" fill="white" fill-opacity="0.55" font-family="Arial, sans-serif" font-size="12">Markets</text>
+      <text x="373" y="24" fill="white" fill-opacity="0.55" font-family="Arial, sans-serif" font-size="12">Insights</text>
+      <text x="1260" y="24" fill="white" fill-opacity="0.55" font-family="Arial, sans-serif" font-size="12">Sign in</text>
+      <rect x="1332" y="1" width="108" height="34" rx="17" fill="url(#btn)"/>
+      <text x="1354" y="23" fill="#0A0B10" font-family="Arial, sans-serif" font-size="11" letter-spacing="0.4">Open account</text>
+    </g>
+
+    <g transform="translate(86 246)">
+      <rect x="0" y="0" width="122" height="28" rx="14" stroke="white" stroke-opacity="0.14"/>
+      <circle cx="16" cy="14" r="3" fill="#8FA0FF"/>
+      <text x="28" y="18" fill="white" fill-opacity="0.7" font-family="monospace" font-size="8" letter-spacing="1.7">PRIVATE BANKING 2.0</text>
+      <text x="0" y="122" fill="white" font-family="Arial, sans-serif" font-size="78" letter-spacing="-4">Money</text>
+      <text x="0" y="196" fill="white" fill-opacity="0.92" font-family="Arial, sans-serif" font-size="78" letter-spacing="-4">in <tspan font-family="Georgia, serif" font-style="italic" fill="#A9B5FF">motion.</tspan></text>
+      <text x="4" y="252" fill="white" fill-opacity="0.44" font-family="Arial, sans-serif" font-size="15">A calmer way to see, move and grow your wealth.</text>
+
+      <rect x="0" y="302" width="166" height="48" rx="24" fill="#F3F1EB"/>
+      <text x="28" y="330" fill="#0A0B10" font-family="Arial, sans-serif" font-size="12">Start exploring</text>
+      <circle cx="142" cy="326" r="12" fill="#0A0B10" fill-opacity="0.08"/>
+      <path d="M138 326H147M144 322L148 326L144 330" stroke="#0A0B10" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+      <rect x="184" y="302" width="146" height="48" rx="24" stroke="white" stroke-opacity="0.13"/>
+      <text x="210" y="330" fill="white" fill-opacity="0.72" font-family="Arial, sans-serif" font-size="12">See how it works</text>
+
+      <g transform="translate(0 448)">
+        <path d="M0 0H650" stroke="white" stroke-opacity="0.1"/>
+        <text x="0" y="38" fill="white" fill-opacity="0.36" font-family="monospace" font-size="9" letter-spacing="1.4">TOTAL BALANCE</text>
+        <text x="0" y="88" fill="white" font-family="Arial, sans-serif" font-size="38" letter-spacing="-1.8">$248,390.00</text>
+        <text x="218" y="82" fill="#8BD8B6" font-family="monospace" font-size="11">+18.4%</text>
+        <path d="M528 28L562 28L562 62" stroke="#8BD8B6" stroke-opacity="0.8"/>
+        <path d="M528 62L552 42L564 52L594 26" stroke="#8BD8B6" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+      </g>
+    </g>
+
+    <g transform="translate(744 242)">
+      <rect x="0" y="0" width="772" height="618" rx="28" fill="url(#card)" stroke="white" stroke-opacity="0.1"/>
+      <rect x="30" y="28" width="218" height="34" rx="17" fill="white" fill-opacity="0.05" stroke="white" stroke-opacity="0.07"/>
+      <circle cx="50" cy="45" r="4" fill="#8FA0FF"/>
+      <text x="64" y="49" fill="white" fill-opacity="0.62" font-family="monospace" font-size="8" letter-spacing="1.5">LIVE PORTFOLIO</text>
+      <text x="585" y="49" fill="white" fill-opacity="0.38" font-family="monospace" font-size="8">1D / 1W / 1M / 1Y</text>
+      <rect x="695" y="28" width="46" height="34" rx="17" fill="white" fill-opacity="0.06"/>
+      <circle cx="711" cy="45" r="1.5" fill="white" fill-opacity="0.6"/><circle cx="718" cy="45" r="1.5" fill="white" fill-opacity="0.6"/><circle cx="725" cy="45" r="1.5" fill="white" fill-opacity="0.6"/>
+
+      <text x="30" y="112" fill="white" fill-opacity="0.36" font-family="monospace" font-size="9" letter-spacing="1.6">PORTFOLIO VALUE</text>
+      <text x="30" y="164" fill="white" font-family="Arial, sans-serif" font-size="48" letter-spacing="-2.2">$132,840<tspan fill="white" fill-opacity="0.42" font-size="28">.22</tspan></text>
+      <rect x="270" y="138" width="78" height="28" rx="14" fill="#8BD8B6" fill-opacity="0.1"/>
+      <text x="287" y="156" fill="#A9E7CD" font-family="monospace" font-size="10">+12.8%</text>
+
+      <g opacity="0.45" stroke="white" stroke-opacity="0.08">
+        <path d="M31 230H741"/><path d="M31 330H741"/><path d="M31 430H741"/><path d="M31 530H741"/>
+        <path d="M180 206V550"/><path d="M340 206V550"/><path d="M500 206V550"/><path d="M660 206V550"/>
+      </g>
+      <path d="M32 506C82 494 105 452 142 461C179 470 201 521 245 498C289 475 315 400 360 408C405 416 430 463 474 446C518 429 552 342 602 344C652 346 672 400 716 367C732 355 742 340 744 326V550H32V506Z" fill="url(#chartFill)"/>
+      <path d="M32 506C82 494 105 452 142 461C179 470 201 521 245 498C289 475 315 400 360 408C405 416 430 463 474 446C518 429 552 342 602 344C652 346 672 400 716 367C732 355 742 340 744 326" stroke="url(#chartLine)" stroke-width="2.5" stroke-linecap="round"/>
+      <circle cx="602" cy="344" r="5" fill="#0B0D16" stroke="#C4B5FD" stroke-width="2"/>
+      <circle cx="602" cy="344" r="15" fill="#C4B5FD" fill-opacity="0.08"/>
+      <rect x="548" y="292" width="108" height="34" rx="8" fill="#0A0B12" stroke="white" stroke-opacity="0.12"/>
+      <text x="564" y="313" fill="white" font-family="monospace" font-size="10">$84,209.10</text>
+
+      <g transform="translate(30 575)">
+        <rect width="222" height="1" fill="white" fill-opacity="0.08"/>
+        <text x="0" y="15" fill="white" fill-opacity="0.32" font-family="monospace" font-size="8" letter-spacing="1.2">MONDAY</text>
+        <text x="276" y="15" fill="white" fill-opacity="0.32" font-family="monospace" font-size="8" letter-spacing="1.2">WEDNESDAY</text>
+        <text x="522" y="15" fill="white" fill-opacity="0.32" font-family="monospace" font-size="8" letter-spacing="1.2">FRIDAY</text>
+      </g>
+    </g>
+
+    <g transform="translate(1112 886)">
+      <rect width="404" height="124" rx="22" fill="white" fill-opacity="0.055" stroke="white" stroke-opacity="0.1"/>
+      <circle cx="42" cy="42" r="16" fill="#6278FF" fill-opacity="0.18"/>
+      <path d="M36 42L41 47L49 37" stroke="#A9B5FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="70" y="38" fill="white" font-family="Arial, sans-serif" font-size="13">Instant transfers</text>
+      <text x="70" y="59" fill="white" fill-opacity="0.38" font-family="Arial, sans-serif" font-size="10">Move money without friction.</text>
+      <path d="M24 88H380" stroke="white" stroke-opacity="0.08"/>
+      <text x="24" y="108" fill="white" fill-opacity="0.45" font-family="monospace" font-size="8" letter-spacing="1.2">SECURE · SIMPLE · SWIFT</text>
+    </g>
+
+    <rect width="1600" height="1100" filter="url(#grain)" opacity="0.45"/>
+  </g>
+</svg>

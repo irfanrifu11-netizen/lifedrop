@@ -4,6 +4,7 @@ import { useState } from "react";
 import { AlertTriangle, Clock3, MapPin, Phone, Send } from "lucide-react";
 import {
   BLOOD_GROUPS,
+  DISTRICTS,
   addRequest,
   useConnections,
   useRequests,
@@ -14,6 +15,7 @@ import {
 const emptyForm = {
   patientName: "",
   bloodGroup: "",
+  district: "",
   place: "",
   contactName: "",
   phone: "",
@@ -55,6 +57,7 @@ export function BloodRequests() {
     const request = addRequest({
       patientName: form.patientName.trim(),
       bloodGroup: form.bloodGroup as BloodGroup,
+      district: form.district || undefined,
       place: form.place.trim(),
       contactName: form.contactName.trim(),
       phone: form.phone.trim(),
@@ -71,7 +74,7 @@ export function BloodRequests() {
   return (
     <section
       id="request"
-      className="scroll-mt-24 border-t border-outline-variant bg-surface px-5 py-20 sm:px-8"
+      className="scroll-mt-24 bg-surface px-5 pb-20 pt-10 sm:px-8"
     >
       <div className="mx-auto max-w-6xl">
         <div className="mb-9">
@@ -90,7 +93,7 @@ export function BloodRequests() {
         </div>
 
         <div className="grid gap-8 xl:grid-cols-[minmax(0,440px)_1fr] xl:items-start">
-          <div className="rounded-3xl border border-outline-variant bg-surface-container-lowest p-6 sm:p-8 xl:sticky xl:top-24">
+          <div className="lift-card rounded-3xl border border-outline-variant bg-surface-container-lowest p-6 shadow-card sm:p-8 xl:sticky xl:top-24">
             <h3 className="mb-5 font-display text-2xl text-on-surface">Request details</h3>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-1">
@@ -129,6 +132,23 @@ export function BloodRequests() {
               </div>
 
               <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-1">
+                <label className="block">
+                  <span className="mb-2 block text-xs font-semibold text-on-surface-variant">
+                    District (optional)
+                  </span>
+                  <select
+                    className={inputClass}
+                    value={form.district}
+                    onChange={(event) => update("district", event.target.value)}
+                  >
+                    <option value="">Select district</option>
+                    {DISTRICTS.map((item) => (
+                      <option key={item} value={item}>
+                        {item}
+                      </option>
+                    ))}
+                  </select>
+                </label>
                 <label className="block">
                   <span className="mb-2 block text-xs font-semibold text-on-surface-variant">
                     Location or hospital
@@ -236,7 +256,7 @@ export function BloodRequests() {
                 requests.map((request) => (
                   <article
                     key={request.id}
-                    className="flex h-full flex-col rounded-2xl border border-outline-variant bg-surface-container-lowest p-5"
+                    className="lift-card flex h-full flex-col rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 shadow-card"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div>
@@ -263,12 +283,14 @@ export function BloodRequests() {
                             </span>
                           )}
                         </div>
-                        <h4 className="mt-3 font-semibold text-accent">
+                        <h4 className="mt-3 font-semibold text-light-black">
                           {request.patientName}
                         </h4>
                         <p className="mt-1 flex items-center gap-1.5 text-sm text-on-surface-variant">
-                          <MapPin size={14} className="text-primary" />
-                          {request.place}
+                          <MapPin size={14} className="text-accent" />
+                          {request.district && request.district !== request.place
+                            ? `${request.district} · ${request.place}`
+                            : request.place}
                         </p>
                       </div>
                       <span className="flex items-center gap-1 text-[11px] text-on-surface-variant">
@@ -287,7 +309,7 @@ export function BloodRequests() {
                       </p>
                     )}
                     <div className="mt-auto flex items-center justify-between gap-3 border-t border-outline-variant pt-4">
-                      <span className="text-xs text-accent">
+                      <span className="text-xs text-light-black">
                         {request.contactName}
                       </span>
                       <a

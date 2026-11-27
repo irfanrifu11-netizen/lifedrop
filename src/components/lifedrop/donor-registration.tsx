@@ -2,7 +2,13 @@
 
 import { useState } from "react";
 import { CheckCircle2, HeartHandshake, ShieldCheck } from "lucide-react";
-import { BLOOD_GROUPS, addDonor, type BloodGroup } from "@/lib/lifedrop-store";
+import {
+  BLOOD_GROUPS,
+  DISTRICTS,
+  addDonor,
+  isNativeBuild,
+  type BloodGroup,
+} from "@/lib/lifedrop-store";
 
 type Status = { type: "success" | "error"; message: string };
 
@@ -11,6 +17,7 @@ const emptyForm = {
   age: "",
   phone: "",
   bloodGroup: "",
+  district: "",
   place: "",
   consent: false,
 };
@@ -37,6 +44,7 @@ export function DonorRegistration() {
       !form.age ||
       !phone ||
       !form.bloodGroup ||
+      !form.district ||
       !form.place.trim()
     ) {
       setStatus({
@@ -72,6 +80,7 @@ export function DonorRegistration() {
       age,
       phone,
       bloodGroup: form.bloodGroup as BloodGroup,
+      district: form.district,
       place: form.place.trim(),
       consent: form.consent,
       availability: "Available",
@@ -84,7 +93,9 @@ export function DonorRegistration() {
 
     setStatus({
       type: "success",
-      message: `Thank you, ${form.name.trim().split(" ")[0]}! You are now listed as a donor. Syncing to Google Sheet...`,
+      message: isNativeBuild
+        ? `Thank you, ${form.name.trim().split(" ")[0]}! You are now listed as a donor on this device.`
+        : `Thank you, ${form.name.trim().split(" ")[0]}! You are now listed as a donor. Syncing to Google Sheet...`,
     });
     setForm(emptyForm);
   };
@@ -140,7 +151,7 @@ export function DonorRegistration() {
           </div>
         </div>
 
-        <div className="rounded-3xl border border-outline-variant bg-surface-container-lowest p-6 sm:p-8">
+        <div className="lift-card rounded-3xl border border-outline-variant bg-surface-container-lowest p-6 shadow-card sm:p-8">
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="grid gap-4 sm:grid-cols-2">
               <label className="block">
@@ -202,17 +213,36 @@ export function DonorRegistration() {
               </label>
             </div>
 
-            <label className="block">
-              <span className="mb-2 block text-xs font-semibold text-on-surface-variant">
-                Location
-              </span>
-              <input
-                className={inputClass}
-                value={form.place}
-                onChange={(event) => update("place", event.target.value)}
-                placeholder="City or area"
-              />
-            </label>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <label className="block">
+                <span className="mb-2 block text-xs font-semibold text-on-surface-variant">
+                  District
+                </span>
+                <select
+                  className={inputClass}
+                  value={form.district}
+                  onChange={(event) => update("district", event.target.value)}
+                >
+                  <option value="">Select district</option>
+                  {DISTRICTS.map((item) => (
+                    <option key={item} value={item}>
+                      {item}
+                    </option>
+                  ))}
+                </select>
+              </label>
+              <label className="block">
+                <span className="mb-2 block text-xs font-semibold text-on-surface-variant">
+                  Location
+                </span>
+                <input
+                  className={inputClass}
+                  value={form.place}
+                  onChange={(event) => update("place", event.target.value)}
+                  placeholder="City or area"
+                />
+              </label>
+            </div>
 
             <label className="flex items-start gap-3 rounded-xl bg-surface-container px-4 py-3">
               <input

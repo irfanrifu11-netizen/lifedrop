@@ -103,5 +103,9 @@ export const siteConfig = {
   url: "https://lifedrop-donor-network.vercel.app",
   location: "Community donor network · Available 24/7",
   phone: "+91 96547 38357",
+  adminContact: {
+    name: "Naseef",
+    phone: "9654738357",
+  },
   email: "irfanrifu11@gmail.com",
 };

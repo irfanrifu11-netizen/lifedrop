@@ -5,10 +5,23 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build:native": "node scripts/build-native.mjs",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "native:add:android": "cap add android",
+    "native:add:ios": "cap add ios",
+    "native:android": "npm run build:native && cap sync android",
+    "native:ios": "npm run build:native && cap sync ios",
+    "native:open:android": "cap open android",
+    "native:open:ios": "cap open ios",
+    "native:apk": "npm run native:android && cd android && gradlew.bat assembleDebug --no-daemon",
+    "native:install": "npm run native:apk && \"C:\\Android\\platform-tools\\adb.exe\" install -r android\\app\\build\\outputs\\apk\\debug\\app-debug.apk"
   },
   "dependencies": {
+    "@capacitor/android": "^8.6.3",
+    "@capacitor/cli": "^8.6.3",
+    "@capacitor/core": "^8.6.3",
+    "@capacitor/ios": "^8.6.3",
     "framer-motion": "^14.13.0",
     "lucide-react": "^1.72.0",
     "next": "16.4.6",

@@ -2,27 +2,38 @@
 
 import { useMemo, useState } from "react";
 import { Droplets, MapPin, Phone, RotateCcw, Search } from "lucide-react";
-import { BLOOD_GROUPS, useDonors } from "@/lib/lifedrop-store";
+import { BLOOD_GROUPS, DISTRICTS, useDonors } from "@/lib/lifedrop-store";
 
 const DONORS_SHOWN = 20;
 
 export function DonorDirectory() {
   const donors = useDonors();
   const [bloodGroup, setBloodGroup] = useState("");
+  const [district, setDistrict] = useState("");
   const [place, setPlace] = useState("");
-  const [query, setQuery] = useState({ bloodGroup: "", place: "" });
+  const [query, setQuery] = useState({
+    bloodGroup: "",
+    district: "",
+    place: "",
+  });
 
   const results = useMemo(() => {
     const wantedPlace = query.place.trim().toLowerCase();
     return donors.filter((donor) => {
       const matchesGroup =
         !query.bloodGroup || donor.bloodGroup === query.bloodGroup;
+      const matchesDistrict =
+        !query.district ||
+        (donor.district || donor.place)
+          .toLowerCase()
+          .includes(query.district.toLowerCase());
       const matchesPlace =
         !wantedPlace || donor.place.toLowerCase().includes(wantedPlace);
       return (
         donor.consent &&
         donor.availability === "Available" &&
         matchesGroup &&
+        matchesDistrict &&
         matchesPlace
       );
     });
@@ -32,40 +43,41 @@ export function DonorDirectory() {
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    setQuery({ bloodGroup, place });
+    setQuery({ bloodGroup, district, place });
   };
 
   const showAll = () => {
     setBloodGroup("");
+    setDistrict("");
     setPlace("");
-    setQuery({ bloodGroup: "", place: "" });
+    setQuery({ bloodGroup: "", district: "", place: "" });
   };
 
   const inputClass =
     "w-full rounded-xl border border-outline bg-surface-container-lowest px-4 py-3 text-sm text-on-surface outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/15";
 
   return (
-    <section id="find" className="scroll-mt-24 bg-surface px-5 py-20 sm:px-8">
+    <section id="find" className="scroll-mt-24 bg-surface px-5 pb-20 pt-10 sm:px-8">
       <div className="mx-auto max-w-6xl">
         <div className="mb-9 flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
           <div>
-            <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-secondary">
+            <p className="flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.24em] text-black">
               <Droplets size={14} />
               Donor network
             </p>
-            <h2 className="mt-3 font-display text-4xl text-on-surface sm:text-5xl">
+            <h2 className="mt-3 font-display text-4xl text-black sm:text-5xl">
               Find a donor near you
             </h2>
           </div>
-          <p className="max-w-sm text-sm leading-relaxed text-on-surface-variant">
-            Search by blood group and location, then call a volunteer directly.
-            Every listing has been shared with consent.
+          <p className="max-w-sm text-sm leading-relaxed text-black">
+            Search by blood group, district, and location, then call a volunteer
+            directly. Every listing has been shared with consent.
           </p>
         </div>
 
         <form
           onSubmit={handleSubmit}
-          className="grid gap-4 rounded-3xl border border-outline-variant bg-surface-container-lowest p-5 sm:grid-cols-[1fr_1.4fr_auto_auto] sm:items-end sm:p-6"
+          className="grid gap-4 rounded-3xl border border-outline-variant bg-surface-container-lowest p-5 shadow-card sm:grid-cols-2 sm:items-end sm:p-6 lg:grid-cols-[1fr_1fr_1.2fr_auto_auto]"
         >
           <label className="block">
             <span className="mb-2 block text-xs font-semibold text-on-surface-variant">
@@ -80,6 +92,24 @@ export function DonorDirectory() {
               {BLOOD_GROUPS.map((group) => (
                 <option key={group} value={group}>
                   {group}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <label className="block">
+            <span className="mb-2 block text-xs font-semibold text-on-surface-variant">
+              District
+            </span>
+            <select
+              className={inputClass}
+              value={district}
+              onChange={(event) => setDistrict(event.target.value)}
+            >
+              <option value="">All districts</option>
+              {DISTRICTS.map((item) => (
+                <option key={item} value={item}>
+                  {item}
                 </option>
               ))}
             </select>
@@ -139,16 +169,18 @@ export function DonorDirectory() {
             {visibleResults.map((donor) => (
               <article
                 key={donor.id}
-                className="rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 transition hover:-translate-y-0.5 hover:border-primary/40"
+                className="lift-card rounded-2xl border border-outline-variant bg-surface-container-lowest p-5 shadow-card hover:border-accent/40"
               >
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <h3 className="font-display text-xl text-accent">
+                    <h3 className="font-display text-xl text-light-black">
                       {donor.name}
                     </h3>
                     <p className="mt-1.5 flex items-center gap-1.5 text-sm text-on-surface-variant">
-                      <MapPin size={14} className="text-primary" />
-                      {donor.place}
+                      <MapPin size={14} className="text-accent" />
+                      {donor.district && donor.district !== donor.place
+                        ? `${donor.district} · ${donor.place}`
+                        : donor.place}
                     </p>
                     <p className="mt-2 flex flex-wrap items-center gap-2 text-xs text-on-surface-variant">
                       <span>{donor.age} years old</span>

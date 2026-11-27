@@ -1,0 +1,107 @@
+<svg width="1600" height="1100" viewBox="0 0 1600 1100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="130" y1="20" x2="1460" y2="1080" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0C0C10"/>
+      <stop offset="0.55" stop-color="#08080B"/>
+      <stop offset="1" stop-color="#0E0B13"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1068 540) rotate(90) scale(570)">
+      <stop stop-color="#8B5CF6" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#8B5CF6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ring" x1="445" y1="220" x2="1200" y2="850" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A78BFA" stop-opacity="0.9"/>
+      <stop offset="0.38" stop-color="#6278FF" stop-opacity="0.4"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0.04"/>
+    </linearGradient>
+    <linearGradient id="pillar" x1="0" y1="0" x2="250" y2="450" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#36313F"/>
+      <stop offset="0.6" stop-color="#16151B"/>
+      <stop offset="1" stop-color="#0D0D11"/>
+    </linearGradient>
+    <linearGradient id="pillarLight" x1="0" y1="0" x2="0" y2="450" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C1B6DB" stop-opacity="0.55"/>
+      <stop offset="1" stop-color="#C1B6DB" stop-opacity="0"/>
+    </linearGradient>
+    <radialGradient id="orb" cx="0" cy="0" r="1" gradientUnits="userSpaceOnUse" gradientTransform="translate(1024 492) rotate(50) scale(250)">
+      <stop stop-color="#D4CCFF"/>
+      <stop offset="0.28" stop-color="#8B7BFF"/>
+      <stop offset="0.65" stop-color="#4A2BC2"/>
+      <stop offset="1" stop-color="#110A24"/>
+    </radialGradient>
+    <pattern id="grid" width="74" height="74" patternUnits="userSpaceOnUse">
+      <path d="M74 0H0V74" stroke="white" stroke-opacity="0.045"/>
+    </pattern>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="linear" slope="0.14"/></feComponentTransfer></filter>
+    <filter id="blur60" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="60"/></filter>
+    <clipPath id="clip"><rect width="1600" height="1100"/></clipPath>
+  </defs>
+  <g clip-path="url(#clip)">
+    <rect width="1600" height="1100" fill="url(#bg)"/>
+    <rect width="1600" height="1100" fill="url(#glow)"/>
+    <rect width="1600" height="1100" fill="url(#grid)"/>
+    <path d="M80 0V1100M1520 0V1100" stroke="white" stroke-opacity="0.08"/>
+    <path d="M0 120H1600" stroke="white" stroke-opacity="0.08"/>
+
+    <g transform="translate(80 64)">
+      <circle cx="17" cy="17" r="16" stroke="white" stroke-opacity="0.2"/>
+      <path d="M12 17H22M17 12V22" stroke="white" stroke-opacity="0.7"/>
+      <text x="46" y="23" fill="white" font-family="Arial, sans-serif" font-size="14" letter-spacing="5">ORBIT</text>
+      <text x="1232" y="23" fill="white" fill-opacity="0.5" font-family="Arial, sans-serif" font-size="11">Practice</text>
+      <text x="1310" y="23" fill="white" fill-opacity="0.5" font-family="Arial, sans-serif" font-size="11">Projects</text>
+      <text x="1395" y="23" fill="white" fill-opacity="0.5" font-family="Arial, sans-serif" font-size="11">Contact</text>
+    </g>
+
+    <g transform="translate(80 247)">
+      <text x="0" y="28" fill="white" fill-opacity="0.35" font-family="monospace" font-size="9" letter-spacing="2">SPATIAL DESIGN STUDIO — EST. 2018</text>
+      <text x="0" y="188" fill="white" font-family="Arial, sans-serif" font-size="116" letter-spacing="-6">Spaces</text>
+      <text x="0" y="296" fill="white" fill-opacity="0.9" font-family="Arial, sans-serif" font-size="116" letter-spacing="-6">with <tspan font-family="Georgia, serif" font-style="italic" fill="#B8A8FF">gravity.</tspan></text>
+      <path d="M0 358H410" stroke="white" stroke-opacity="0.15"/>
+      <text x="0" y="397" fill="white" fill-opacity="0.42" font-family="Arial, sans-serif" font-size="13">Architecture, interiors and objects shaped by light,</text>
+      <text x="0" y="418" fill="white" fill-opacity="0.42" font-family="Arial, sans-serif" font-size="13">material and the people who move through them.</text>
+      <g transform="translate(0 488)">
+        <circle cx="23" cy="23" r="23" stroke="white" stroke-opacity="0.16"/>
+        <path d="M18 23H28M24 19L28 23L24 27" stroke="white" stroke-opacity="0.8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <text x="64" y="20" fill="white" fill-opacity="0.38" font-family="monospace" font-size="8" letter-spacing="1.5">SELECTED WORK</text>
+        <text x="64" y="38" fill="white" fill-opacity="0.8" font-family="Arial, sans-serif" font-size="12">Nine spaces, one philosophy</text>
+      </g>
+    </g>
+
+    <g transform="translate(702 191)">
+      <ellipse cx="377" cy="366" rx="374" ry="212" transform="rotate(-22 377 366)" stroke="url(#ring)" stroke-width="1.4"/>
+      <ellipse cx="377" cy="366" rx="288" ry="158" transform="rotate(24 377 366)" stroke="white" stroke-opacity="0.12"/>
+      <ellipse cx="377" cy="366" rx="206" ry="108" transform="rotate(-49 377 366)" stroke="white" stroke-opacity="0.1" stroke-dasharray="2 8"/>
+      <ellipse cx="377" cy="366" rx="430" ry="255" transform="rotate(-9 377 366)" stroke="white" stroke-opacity="0.045"/>
+      <circle cx="1022" cy="490" r="168" fill="url(#orb)"/>
+      <circle cx="1022" cy="490" r="168" stroke="white" stroke-opacity="0.14"/>
+      <circle cx="972" cy="433" r="38" fill="white" fill-opacity="0.13" filter="url(#blur60)"/>
+      <circle cx="540" cy="238" r="5" fill="#C4B5FD"/>
+      <circle cx="540" cy="238" r="14" fill="#C4B5FD" fill-opacity="0.12"/>
+      <circle cx="268" cy="546" r="3" fill="#8FA0FF"/>
+      <circle cx="1094" cy="215" r="3" fill="#8FA0FF"/>
+      <path d="M1022 322V658" stroke="white" stroke-opacity="0.1"/>
+      <path d="M854 490H1190" stroke="white" stroke-opacity="0.1"/>
+      <path d="M912 490C912 431 961 382 1022 382" stroke="white" stroke-opacity="0.35" stroke-width="1.2"/>
+    </g>
+
+    <g transform="translate(1090 840)">
+      <rect width="430" height="180" rx="22" fill="white" fill-opacity="0.045" stroke="white" stroke-opacity="0.1"/>
+      <text x="24" y="36" fill="white" fill-opacity="0.34" font-family="monospace" font-size="8" letter-spacing="1.6">CURRENTLY EXHIBITING</text>
+      <text x="24" y="83" fill="white" font-family="Georgia, serif" font-size="35">House of Stillness</text>
+      <text x="24" y="111" fill="white" fill-opacity="0.4" font-family="Arial, sans-serif" font-size="11">Kyoto, Japan · 2025</text>
+      <path d="M24 139H406" stroke="white" stroke-opacity="0.09"/>
+      <text x="24" y="161" fill="white" fill-opacity="0.35" font-family="monospace" font-size="8" letter-spacing="1.2">A study of pause, shadow and stone.</text>
+      <circle cx="398" cy="161" r="12" stroke="white" stroke-opacity="0.2"/>
+      <path d="M394 161H402M399 157L403 161L399 165" stroke="white" stroke-opacity="0.8" stroke-width="1.1" stroke-linecap="round"/>
+    </g>
+
+    <g opacity="0.85" transform="translate(91 904)">
+      <text x="0" y="0" fill="white" fill-opacity="0.2" font-family="monospace" font-size="8" letter-spacing="1.6">01 / 09</text>
+      <path d="M0 32H694" stroke="white" stroke-opacity="0.1"/>
+      <path d="M0 32H116" stroke="#B8A8FF" stroke-opacity="0.65"/>
+      <text x="0" y="63" fill="white" fill-opacity="0.33" font-family="monospace" font-size="8" letter-spacing="1.4">SCROLL TO ORBIT</text>
+    </g>
+
+    <rect width="1600" height="1100" filter="url(#grain)" opacity="0.5"/>
+  </g>
+</svg>
