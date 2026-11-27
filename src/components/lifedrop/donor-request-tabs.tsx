@@ -46,10 +46,10 @@ export function DonorRequestTabs() {
               type="button"
               onClick={() => selectTab(id)}
               aria-current={active === id ? "page" : undefined}
-              className={`flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-3 text-xs font-semibold uppercase tracking-[0.16em] shadow-sm ring-1 transition ${
+              className={`flex flex-1 items-center justify-center gap-2 rounded-xl px-4 py-3 text-xs font-semibold uppercase tracking-[0.16em] transition ${
                 active === id
-                  ? "bg-primary text-on-primary shadow-[#d71920]/25 ring-brand-dark/20"
-                  : "bg-surface-container-lowest text-on-surface ring-outline-variant hover:text-primary"
+                  ? "bg-primary text-on-primary shadow-md shadow-[#d71920]/25"
+                  : "text-on-surface-variant hover:bg-surface-container-lowest hover:text-primary"
               }`}
             >
               <Icon size={15} />
